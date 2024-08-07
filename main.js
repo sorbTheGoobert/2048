@@ -1,6 +1,7 @@
 const cells = document.querySelectorAll(".cell");
 const empty_cell_color = "white";
 const r = 0, g = 50, b = 100;
+let gameOver = false;
 
 function changeColor(cell) {
     let power = Math.log2(parseInt(cell.innerHTML));
@@ -13,6 +14,9 @@ function changeColor(cell) {
 }
 
 function firstGeneration() {
+    for (i = 0; i < cells.length; i++) {
+        cells[i].innerHTML = 1;
+    }
     let options = [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
     ];
@@ -155,50 +159,53 @@ function moveRight() {
     // }
 }
 
-function checkIfFull() {
-    for (i = 0; i < cells.length; i++) {
+function checkIfNoMovement() {
+    let no_moveAmount = 0;
+    for (let i = 0; i < cells.length; i++) {
         if (cells[i].innerHTML === "1") return false;
-        if (i == 0) {
-            if (cells[i + 1].innerHTML == cells[i].innerHTML) return false;
-            if (cells[i + 4].innerHTML == cells[i].innerHTML) return false;
+        else if (i == 0) {
+            if (cells[i + 1].innerHTML == cells[i].innerHTML || cells[i + 1].innerHTML === "1") return false;
+            if (cells[i + 4].innerHTML == cells[i].innerHTML || cells[i + 4].innerHTML === "1") return false;
+        } else if (i == 3) {
+            if (cells[i - 1].innerHTML == cells[i].innerHTML || cells[i - 1].innerHTML === "1") return false;
+            if (cells[i + 4].innerHTML == cells[i].innerHTML || cells[i + 4].innerHTML === "1") return false;
+        } else if (i == cells.length - 1 - 3) {
+            if (cells[i + 1].innerHTML == cells[i].innerHTML || cells[i + 1].innerHTML === "1") return false;
+            if (cells[i - 4].innerHTML == cells[i].innerHTML || cells[i - 4].innerHTML === "1") return false;
+        } else if (i == cells.length - 1) {
+            if (cells[i - 1].innerHTML == cells[i].innerHTML || cells[i - 1].innerHTML === "1") return false;
+            if (cells[i - 4].innerHTML == cells[i].innerHTML || cells[i - 4].innerHTML === "1") return false;
+        } else if (i > 0 && i < 3) {
+            if (cells[i - 1].innerHTML == cells[i].innerHTML || cells[i - 1].innerHTML === "1") return false;
+            if (cells[i + 1].innerHTML == cells[i].innerHTML || cells[i + 1].innerHTML === "1") return false;
+            if (cells[i + 4].innerHTML == cells[i].innerHTML || cells[i + 4].innerHTML === "1") return false;
+        } else if (i > 11 && i < 16) {
+            if (cells[i - 1].innerHTML == cells[i].innerHTML || cells[i - 1].innerHTML === "1") return false;
+            if (cells[i + 1].innerHTML == cells[i].innerHTML || cells[i + 1].innerHTML === "1") return false;
+            if (cells[i - 4].innerHTML == cells[i].innerHTML || cells[i - 4].innerHTML === "1") return false;
+        } else if (i % 4 == 0 && i !== 0 && i !== cells.length - 1 - 3) {
+            if (cells[i + 4].innerHTML == cells[i].innerHTML || cells[i + 4].innerHTML === "1") return false;
+            if (cells[i + 1].innerHTML == cells[i].innerHTML || cells[i + 1].innerHTML === "1") return false;
+            if (cells[i - 4].innerHTML == cells[i].innerHTML || cells[i - 4].innerHTML === "1") return false;
+        } else if (i % 4 == 3 && i !== 3 && i !== cells.length - 1) {
+            if (cells[i + 4].innerHTML == cells[i].innerHTML || cells[i + 4].innerHTML === "1") return false;
+            if (cells[i - 1].innerHTML == cells[i].innerHTML || cells[i - 1].innerHTML === "1") return false;
+            if (cells[i - 4].innerHTML == cells[i].innerHTML || cells[i - 4].innerHTML === "1") return false;
+        } else {
+            if (cells[i + 4].innerHTML == cells[i].innerHTML || cells[i + 4].innerHTML === "1") return false;
+            if (cells[i - 1].innerHTML == cells[i].innerHTML || cells[i - 1].innerHTML === "1") return false;
+            if (cells[i - 4].innerHTML == cells[i].innerHTML || cells[i - 4].innerHTML === "1") return false;
+            if (cells[i + 1].innerHTML == cells[i].innerHTML || cells[i + 1].innerHTML === "1") return false;
         }
-        if (i == 3) {
-            if (cells[i - 1].innerHTML == cells[i].innerHTML) return false;
-            if (cells[i + 4].innerHTML == cells[i].innerHTML) return false;
+    }
+    return true;
+}
+
+function checkIfFull() {
+    for(let i = 0; i < cells.length; i++){
+        if(cells[i].innerHTML === "1"){
+            return false;
         }
-        if (i == cells.length - 1 - 3) {
-            if (cells[i + 1].innerHTML == cells[i].innerHTML) return false;
-            if (cells[i - 4].innerHTML == cells[i].innerHTML) return false;
-        }
-        if (i == cells.length - 1) {
-            if (cells[i - 1].innerHTML == cells[i].innerHTML) return false;
-            if (cells[i - 4].innerHTML == cells[i].innerHTML) return false;
-        }
-        if (i > 0 && i < 3) {
-            if (cells[i - 1].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i + 1].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i + 4].innerHTML == cells[i.innerHTML]) return false;
-        }
-        if (i > 11 && i < 16) {
-            if (cells[i - 1].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i + 1].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i - 4].innerHTML == cells[i.innerHTML]) return false;
-        }
-        if (i % 4 == 0 && i !== 0 && i !== cells.length - 1 - 3) {
-            if (cells[i + 4].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i + 1].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i - 4].innerHTML == cells[i.innerHTML]) return false;
-        }
-        if (i % 4 == 3 && i !== 3 && i !== cells.length - 1) {
-            if (cells[i + 4].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i - 1].innerHTML == cells[i.innerHTML]) return false;
-            if (cells[i - 4].innerHTML == cells[i.innerHTML]) return false;
-        }
-        if (cells[i + 4].innerHTML == cells[i.innerHTML]) return false;
-        if (cells[i - 1].innerHTML == cells[i.innerHTML]) return false;
-        if (cells[i - 4].innerHTML == cells[i.innerHTML]) return false;
-        if (cells[i + 1].innerHTML == cells[i.innerHTML]) return false;
-        
     }
     return true;
 }
@@ -206,61 +213,132 @@ function checkIfFull() {
 window.addEventListener("keydown", (event) => {
     switch (event.code) {
         case "KeyW":
-            console.log(checkIfFull());
-            if(!checkIfFull()){
-                moveUp();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveUp();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "KeyA":
-            if(!checkIfFull()){
-                moveLeft();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveLeft();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "KeyS":
-            if(!checkIfFull()){
-                moveDown();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveDown();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "KeyD":
-            if(!checkIfFull()){
-                moveRight();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveRight();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "ArrowUp":
-            if(!checkIfFull()){
-                moveUp();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveUp();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "ArrowLeft":
-            if(!checkIfFull()){
-                moveLeft();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveLeft();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "ArrowDown":
-            if(!checkIfFull()){
-                moveDown();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveDown();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
         case "ArrowRight":
-            if(!checkIfFull()){
-                moveRight();
+            if(gameOver){
+                init();
+                gameOver = false;
             }
-            generate();
-            cells.forEach(changeColor);
+            if (!checkIfNoMovement()) {
+                moveRight();
+            } else {
+                gameOver = true;
+                console.log("GAME OVER");
+            }
+            if (!gameOver && !checkIfFull()) {
+                generate();
+                cells.forEach(changeColor);
+            }
             break;
     }
 })
