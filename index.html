@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1337</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+
+        :root {
+            --prim_color: grey;
+            --secondary_color: white;
+        }
+
+        body {
+            margin: 0;
+            background-color: bisque;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game_content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--prim_color);
+            border: 25px solid var(--prim_color);
+            border-radius: 15px;
+        }
+
+        .cell_row {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+        }
+
+        .cell {
+            width: 200px;
+            height: 200px;
+            aspect-ratio: 1;
+            background-color: var(--secondary_color);
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            font-size: 64px;
+            color: white;
+            /* transition: all .3s; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game_content">
+        <div class="cell_row">
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+        </div>
+        <div class="cell_row">
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+        </div>
+        <div class="cell_row">
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+        </div>
+        <div class="cell_row">
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+            <div class="cell">1</div>
+        </div>
+    </div>
+    <script src="./main.js"></script>
+</body>
+
+</html>
